@@ -2,14 +2,8 @@ import useSWR, { SWRConfiguration } from "swr";
 import useSWRMutation from "swr/mutation";
 import apiClient from "../utils/axiosInterceptors";
 
-export interface FetchArgs {
-	url: string,
-	method?: 'GET' | 'POST' | 'PUT' | 'DELETE',
-	payload?: any,
-	enabled?: boolean,
-}
-
 export const useHttp = () => {
+	// 統一處理HTTP請求方法
 	const fetcher = (url: string, method: 'get' | 'post' | 'put' | 'delete' = 'get', option?: any) => {
 		return apiClient[method](url, option)
 			.then((res) => res)
@@ -44,6 +38,7 @@ export const useHttp = () => {
 			url: string | null,
 			config?: SWRConfiguration
 		) => {
+			// 用於發送GET請求
 			return useSWR(url, fetcher, {
 				...config
 			});

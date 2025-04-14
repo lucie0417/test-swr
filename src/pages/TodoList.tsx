@@ -17,12 +17,16 @@ interface Todo {
 
 const TodoList = () => {
 	const http = useHttp();
-	const { data, isLoading, mutate } = http.getSwr('/todos');
+	const { data: todos, isLoading: loadingTodos, mutate } = http.getSwr('/todos');
+	const { data: users, isLoading: loadingUsers } = http.getSwr('/users');
+	const { data: comments, isLoading: loadingComments } = http.getSwr('/comments');
 
-	// putSwr 更新 todo 狀態
-	const { trigger: updateTodo, isMutating } = http.putSwr('/todos');
+	// postSwr 更新狀態(由trigger觸發)
+	const { trigger: updateTodo, isMutating } = http.postSwr('/todos');
+	console.log('updateTodo trigger', updateTodo);
 
-	if (isLoading || !data) return <Loading />;
+
+	if (loadingTodos || loadingUsers || loadingComments) return <Loading />;
 
 	const handleToggle = async (todo: Todo) => {
 
@@ -43,7 +47,7 @@ const TodoList = () => {
 			</Typography>
 
 			<List>
-				{data.slice(0, 7).map((todo: Todo) => (
+				{todos.slice(0, 7).map((todo: Todo) => (
 					<ListItem
 						key={todo.id}
 						sx={{
