@@ -1,11 +1,11 @@
 import './App.css'
-import TodoList from './pages/TodoList';
+import UserList from './pages/UserList';
 
 function App() {
 
   return (
     <>
-      <TodoList />
+      <UserList />
     </>
   )
 }

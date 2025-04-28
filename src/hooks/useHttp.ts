@@ -6,7 +6,7 @@ export const useHttp = () => {
 	// 統一處理HTTP請求方法
 	const fetcher = (url: string, method: 'get' | 'post' | 'put' | 'delete' = 'get', option?: any) => {
 		return apiClient[method](url, option)
-			.then((res) => res)
+			.then((res) => res.data)
 			.catch(err => {
 				if (err.status === 404) {
 					console.warn('Bad Request');
@@ -23,10 +23,6 @@ export const useHttp = () => {
 	const postFetcher = (url: string, { arg }: { arg: any }) => {
 		return fetcher(url, 'post', arg);
 	}
-
-	// const putFetcher = (url: string, { arg }: { arg: any }) => {
-	// 	return fetcher(url, 'put', { data: arg });
-	// }
 
 	const putFetcher = (url: string, { arg }: { arg: any }) => {
 		const finalUrl = `${url}/${arg.id}`;
